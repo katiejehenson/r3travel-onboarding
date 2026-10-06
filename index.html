@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>R3 Travel · Tern Setup for New Advisors</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#26343a;
+  --brand-2:#34474f;
+  --paper:#f2f4f3;
+  --surface:#ffffff;
+  --ink:#1d2a2f;
+  --muted:#5b6a70;
+  --line:#d9e0e0;
+  --glass:#8fb3a8;
+  --glass-soft:#e3eeea;
+  --mark:#f4e6a8;
+  --done:#3f7f6b;
+  --serif:"Young Serif", Georgia, "Times New Roman", serif;
+  --sans:"Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#151d20; --surface:#1d282c; --ink:#e7eeee; --muted:#9fb0b4;
+    --line:#2f3d42; --glass-soft:#22362f; --mark:#5a4f22; --done:#7cc3aa;
+  }
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 24px);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration-color:var(--glass);text-underline-offset:3px;text-decoration-thickness:2px}
+a:hover{text-decoration-color:currentColor}
+:focus-visible{outline:3px solid var(--glass);outline-offset:2px;border-radius:4px}
+img{max-width:100%}
+
+/* ---------- hero ---------- */
+.hero{background:var(--brand);color:#eef3f2;padding:clamp(48px,8vw,96px) clamp(20px,5vw,64px) 0;position:relative;overflow:hidden}
+.hero-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
+.hero .agency{font-weight:600;letter-spacing:.02em;color:var(--glass);margin:0 0 18px}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,6.4vw,78px);line-height:1.02;margin:0;max-width:13ch;letter-spacing:-.01em}
+.hero p.lede{max-width:52ch;color:#c7d4d3;margin:22px 0 0;font-size:18px}
+.compass{width:180px;height:180px;opacity:.9}
+.route{display:flex;gap:0;margin:56px auto 0;max-width:1180px;border-top:1px solid rgba(255,255,255,.14)}
+.route a{flex:1;padding:18px 0 22px;text-decoration:none;color:#c7d4d3;font-size:15px;border-right:1px solid rgba(255,255,255,.14);padding-left:18px}
+.route a:first-child{padding-left:0}
+.route a:last-child{border-right:0}
+.route a strong{display:block;color:#fff;font-family:var(--serif);font-weight:400;font-size:22px}
+.meter{height:6px;background:rgba(255,255,255,.12)}
+.meter span{display:block;height:100%;width:0;background:var(--glass);transition:width .4s ease}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,64px);display:grid;grid-template-columns:240px minmax(0,1fr);gap:56px}
+nav.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;padding-top:48px;max-height:100vh;overflow:auto}
+nav.side h2{font-family:var(--serif);font-weight:400;font-size:20px;margin:0 0 8px}
+nav.side h2:not(:first-child){margin-top:28px}
+nav.side ol{list-style:none;margin:0;padding:0}
+nav.side li a{display:flex;gap:10px;align-items:baseline;padding:5px 0;text-decoration:none;color:var(--muted);font-size:15px}
+nav.side li a:hover{color:var(--ink)}
+nav.side li a .tick{flex:none;width:14px;height:14px;border:1.5px solid var(--line);border-radius:50%;transform:translateY(2px)}
+nav.side li a.is-done{color:var(--ink)}
+nav.side li a.is-done .tick{background:var(--done);border-color:var(--done)}
+.progress-note{margin-top:28px;font-size:14px;color:var(--muted)}
+.progress-note b{color:var(--ink);font-size:26px;font-family:var(--serif);font-weight:400;display:block}
+.reset{margin-top:8px;background:none;border:0;padding:0;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer}
+
+main{padding:48px 0 120px;min-width:0}
+.part-title{display:flex;align-items:baseline;gap:16px;margin:24px 0 8px;padding-bottom:14px;border-bottom:2px solid var(--brand)}
+.part-title h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4vw,44px);margin:0;line-height:1.1}
+.part-title p{margin:0;color:var(--muted)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .part-title{border-color:var(--glass)}}
+.part + .part{margin-top:96px}
+
+/* ---------- steps ---------- */
+.step{display:grid;grid-template-columns:56px minmax(0,1fr);gap:0 20px;padding:40px 0;border-bottom:1px solid var(--line)}
+.step-num{font-family:var(--serif);font-size:30px;line-height:1;color:var(--glass);padding-top:4px}
+.step h3{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.2;margin:0 0 6px}
+.step .why{color:var(--muted);margin:0 0 20px;max-width:62ch}
+.step p{max-width:68ch}
+.done-toggle{display:inline-flex;align-items:center;gap:10px;margin-top:22px;font-weight:600;font-size:15px;cursor:pointer;user-select:none;padding:8px 14px 8px 10px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
+.done-toggle input{appearance:none;width:20px;height:20px;border:2px solid var(--muted);border-radius:50%;margin:0;display:grid;place-content:center;cursor:pointer}
+.done-toggle input::after{content:"";width:10px;height:6px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translate(1px,-1px);opacity:0}
+.done-toggle input:checked{background:var(--done);border-color:var(--done)}
+.done-toggle input:checked::after{opacity:1}
+.done-toggle:has(input:checked){border-color:var(--done);color:var(--done)}
+
+/* who does it */
+.owner{display:inline-block;font-size:13px;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--glass-soft);color:var(--ink);margin:0 0 10px}
+.owner.kate{background:var(--mark)}
+
+/* field sheet: values the advisor enters */
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sheet + .sheet{margin-top:16px}
+.sheet h4{margin:0;padding:12px 18px;font-size:15px;font-weight:700;background:var(--glass-soft);border-bottom:1px solid var(--line)}
+.row{display:grid;grid-template-columns:minmax(140px,220px) minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 18px;border-top:1px solid var(--line)}
+.sheet h4 + .row,.sheet .row:first-child{border-top:0}
+.row .k{color:var(--muted);font-size:15px}
+.row .v{font-weight:600;overflow-wrap:anywhere}
+.row .v.yours{font-weight:500;color:var(--muted);background:linear-gradient(transparent 58%,var(--mark) 58%);padding:0 2px;justify-self:start}
+.row .v.blank{font-weight:500;color:var(--muted);font-style:italic}
+.copy{border:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;font-size:13px;padding:3px 10px;border-radius:6px;cursor:pointer}
+.copy:hover{color:var(--ink);border-color:var(--muted)}
+.copy.ok{color:var(--done);border-color:var(--done)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin:0 0 14px}
+.legend span::before{content:"";display:inline-block;width:22px;height:10px;margin-right:6px;vertical-align:middle;background:var(--mark)}
+
+/* link cards */
+.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.linkcard{display:block;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:8px;text-decoration:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .linkcard{border-left-color:var(--glass)}}
+.linkcard strong{display:block;font-size:17px}
+.linkcard span{color:var(--muted);font-size:14px;overflow-wrap:anywhere}
+.linkcard:hover strong{text-decoration:underline;text-decoration-color:var(--glass)}
+
+/* swatch */
+.swatch{display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.chip{width:96px;height:96px;border-radius:8px;background:#26343a;flex:none}
+.swatch .hex{font-family:var(--serif);font-size:30px;line-height:1}
+
+/* status track */
+.track{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 0;counter-reset:s}
+.track li{counter-increment:s;display:flex;align-items:center;font-weight:600;font-size:15px}
+.track li::before{content:counter(s);display:grid;place-content:center;width:24px;height:24px;border-radius:50%;background:var(--brand);color:#fff;font-size:12px;margin-right:8px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .track li::before{background:var(--glass);color:var(--brand)}}
+.track li:not(:last-child)::after{content:"";width:22px;height:2px;background:var(--line);margin:0 10px}
+.checks{list-style:none;padding:0;margin:16px 0 0}
+.checks li{padding-left:30px;position:relative;margin:6px 0}
+.checks li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:4px;background:var(--brand)}
+.checks li::after{content:"";position:absolute;left:5px;top:8px;width:8px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg)}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.tbl-wrap + .tbl-wrap,.tbl-wrap + h4.tbl-head{margin-top:28px}
+h4.tbl-head{font-size:17px;margin:28px 0 10px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+h4.tbl-head small{font-weight:500;color:var(--muted);font-size:14px}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:560px}
+th,td{text-align:left;padding:11px 16px;border-top:1px solid var(--line);vertical-align:top}
+thead th{border-top:0;font-size:13px;color:var(--muted);font-weight:600;background:var(--glass-soft)}
+td.name{font-weight:600}
+tr.needs-edit td{background:color-mix(in srgb,var(--mark) 45%,transparent)}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;background:var(--brand);color:#fff;margin:4px 6px 0 0;white-space:nowrap}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag{background:var(--glass);color:var(--brand)}}
+.callout{margin:20px 0 0;padding:16px 20px;border-left:4px solid var(--glass);background:var(--glass-soft);border-radius:0 8px 8px 0;max-width:72ch}
+.callout p{margin:0}
+.callout p + p{margin-top:8px}
+ol.how{padding-left:22px;max-width:68ch}
+ol.how li{margin:6px 0;padding-left:4px}
+
+
+/* collapsible library groups */
+details.group{margin-top:16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+details.group + details.group{margin-top:12px}
+details.group > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 18px}
+details.group > summary::-webkit-details-marker{display:none}
+details.group > summary::before{content:"";flex:none;width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(-45deg);transition:transform .2s ease;margin-right:2px}
+details.group[open] > summary::before{transform:rotate(45deg) translate(-2px,-2px)}
+details.group > summary:hover .g-title{text-decoration:underline;text-decoration-color:var(--glass);text-underline-offset:3px}
+.g-title{font-weight:700;font-size:16px}
+.g-meta{color:var(--muted);font-size:14px;margin-left:auto}
+details.group[open] > summary{border-bottom:1px solid var(--line);background:var(--glass-soft)}
+details.group .tbl-wrap{border:0;border-radius:0}
+details.group .g-body{padding:16px 20px 20px}
+@media (prefers-reduced-motion: reduce){details.group > summary::before{transition:none}}
+
+footer{background:var(--brand);color:#c7d4d3;padding:40px clamp(20px,5vw,64px);font-size:14px}
+footer div{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer a{color:#fff}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr;gap:0}
+  nav.side{position:static;max-height:none;padding-top:32px;display:none}
+  .compass{display:none}
+  .hero-inner{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .route{flex-direction:column}
+  .route a{border-right:0;border-bottom:1px solid rgba(255,255,255,.14);padding-left:0}
+  .step{grid-template-columns:1fr}
+  .step-num{font-size:22px;margin-bottom:6px}
+  .row{grid-template-columns:1fr auto;gap:2px 12px}
+  .row .k{grid-column:1 / -1}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="agency">R3 Travel, LLC · Independent Contractor onboarding</p>
+      <h1>Setting up your Tern account</h1>
+      <p class="lede">Work through these steps in order. Settings gets your profile and business details matching R3 Travel; Library brings in the forms, emails and workflows we use with every client. Tick each step off as you go — your progress is saved in this browser.</p>
+    </div>
+    <svg class="compass" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#8fb3a8" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="74" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+      <g stroke="rgba(255,255,255,.35)" stroke-width="1.5">
+        <line x1="100" y1="8" x2="100" y2="22"/><line x1="100" y1="178" x2="100" y2="192"/>
+        <line x1="8" y1="100" x2="22" y2="100"/><line x1="178" y1="100" x2="192" y2="100"/>
+      </g>
+      <polygon points="100,34 112,100 100,166 88,100" fill="#8fb3a8"/>
+      <polygon points="100,34 112,100 88,100" fill="#eef3f2"/>
+      <circle cx="100" cy="100" r="5" fill="#26343a" stroke="#eef3f2" stroke-width="2"/>
+      <text x="100" y="54" text-anchor="middle" font-family="Young Serif, Georgia, serif" font-size="13" fill="#26343a">R3</text>
+    </svg>
+  </div>
+  <div class="route">
+    <a href="#settings"><strong>Settings</strong>8 steps · profile, business, branding, trips</a>
+    <a href="#library"><strong>Library</strong>3 steps · forms, emails, workflows</a>
+  </div>
+  <div class="meter" role="progressbar" aria-label="Setup progress" aria-valuemin="0" aria-valuemax="11" aria-valuenow="0"><span id="meterBar"></span></div>
+</header>
+
+<div class="wrap">
+  <nav class="side" aria-label="Setup steps">
+    <h2>Settings</h2>
+    <ol>
+      <li><a href="#training" data-step="training"><span class="tick"></span>Onboarding &amp; training</a></li>
+      <li><a href="#account" data-step="account"><span class="tick"></span>Account settings</a></li>
+      <li><a href="#business" data-step="business"><span class="tick"></span>Business settings</a></li>
+      <li><a href="#branding" data-step="branding"><span class="tick"></span>Branding</a></li>
+      <li><a href="#terms" data-step="terms"><span class="tick"></span>Terms &amp; conditions</a></li>
+      <li><a href="#trips" data-step="trips"><span class="tick"></span>Trip settings</a></li>
+      <li><a href="#integrations" data-step="integrations"><span class="tick"></span>Integrations</a></li>
+      <li><a href="#email" data-step="email"><span class="tick"></span>Email &amp; scheduling</a></li>
+    </ol>
+    <h2>Library</h2>
+    <ol>
+      <li><a href="#forms" data-step="forms"><span class="tick"></span>Forms</a></li>
+      <li><a href="#emails" data-step="emails"><span class="tick"></span>Emails</a></li>
+      <li><a href="#workflows" data-step="workflows"><span class="tick"></span>Workflows</a></li>
+    </ol>
+    <div class="progress-note"><b id="countText">0 of 11</b>steps complete
+      <br><button class="reset" id="resetBtn" type="button">Clear my progress</button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- =================== SETTINGS =================== -->
+    <section class="part" id="settings">
+      <div class="part-title"><h2>Settings</h2><p>Tern → Settings</p></div>
+
+      <article class="step" id="training">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Tern onboarding &amp; training</h3>
+          <p class="why">Start here so the rest of the setup makes sense. The advisor checklist walks you through Tern's basics; Tern Learn is the place to come back to whenever you get stuck.</p>
+          <div class="links">
+            <a class="linkcard" href="https://tern.travel/learn/checklist/advisor" target="_blank" rel="noopener"><strong>Advisor onboarding checklist</strong><span>tern.travel/learn/checklist/advisor</span></a>
+            <a class="linkcard" href="https://tern.travel/learn" target="_blank" rel="noopener"><strong>Tern Learn</strong><span>tern.travel/learn</span></a>
+          </div>
+          <label class="done-toggle"><input type="checkbox" data-step="training"> Mark as done</label>
+        </div>
+      </article>
+
+      <article class="step" id="account">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Account settings</h3>
+          <p class="why">This is you as a person. Your photo, name and title appear to clients on itineraries, so use a clear, friendly headshot.</p>
+          <span class="owner">You add your own details</span>
+          <p class="legend"><span>Highlighted fields are yours to fill in</span></p>
+          <div class="sheet">
+            <h4>Profile picture</h4>
+            <div class="row"><span class="k">Photo</span><span class="v yours">Upload your headshot</span><span></span></div>
+          </div>
+          <div class="sheet">
+            <h4>Personal information</h4>
+            <div class="row"><span class="k">Email address</span><span class="v yours">Your R3 Travel email (used to sign in)</span><span></span></div>
+            <div class="row"><span class="k">First name</span><span class="v yours">Your first name</span><span></span></div>
+            <div class="row"><span class="k">Last name</span><span class="v yours">Your last name</span><span></span></div>
+            <div class="row"><span class="k">Title</span><span class="v yours">e.g. Travel Advisor</span><span></span></div>
+            <div class="row"><span class="k">Phone number</span><span class="v yours">Your phone number</span><span></span></div>
+          </div>
+          <div class="sheet">
+            <h4>Location information</h4>
+            <div class="row"><span class="k">Time zone</span><span class="v yours">Your local time zone</span><span></span></div>
+            <div class="row"><span class="k">Country</span><span class="v">United States of America</span><span></span></div>
+            <div class="row"><span class="k">Default currency</span><span class="v">United States Dollar (USD)</span><span></span></div>
+            <div class="row"><span class="k">Distance units</span><span class="v">System default</span><span></span></div>
+          </div>
+          <label class="done-toggle"><input type="checkbox" data-step="account"> Mark as done</label>
+        </div>
+      </article>
+
+      <article class="step" id="business">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Business settings</h3>
+          <p class="why">These details print on invoices and itineraries, so they must match R3 Travel exactly. Enter them as shown — use the copy buttons to avoid typos.</p>
+          <div class="sheet">
+            <h4>Business information</h4>
+            <div class="row"><span class="k">Business name</span><span class="v">R3 Travel, LLC</span><button class="copy" data-copy="R3 Travel, LLC">Copy</button></div>
+            <div class="row"><span class="k">Contact email</span><span class="v yours">Update with your R3 Travel email</span><span></span></div>
+            <div class="row"><span class="k">Business website</span><span class="v">www.r3travel.com</span><button class="copy" data-copy="www.r3travel.com">Copy</button></div>
+            <div class="row"><span class="k">Facebook page</span><span class="v">https://www.facebook.com/R3travelkp</span><button class="copy" data-copy="https://www.facebook.com/R3travelkp">Copy</button></div>
+            <div class="row"><span class="k">Instagram handle</span><span class="v">r_3travel</span><button class="copy" data-copy="r_3travel">Copy</button></div>
+          </div>
+          <div class="sheet">
+            <h4>Address</h4>
+            <div class="row"><span class="k">Address line 1</span><span class="v blank">Leave blank</span><span></span></div>
+            <div class="row"><span class="k">Address line 2</span><span class="v blank">Leave blank</span><span></span></div>
+            <div class="row"><span class="k">Country</span><span class="v blank">Leave unselected</span><span></span></div>
+            <div class="row"><span class="k">State</span><span class="v">IL</span><button class="copy" data-copy="IL">Copy</button></div>
+            <div class="row"><span class="k">City</span><span class="v">Elmhurst</span><button class="copy" data-copy="Elmhurst">Copy</button></div>
+            <div class="row"><span class="k">Zip code</span><span class="v">60126</span><button class="copy" data-copy="60126">Copy</button></div>
+          </div>
+          <div class="sheet">
+            <h4>Credentials — click Add Credential for each</h4>
+            <div class="row"><span class="k">State of California Seller of Travel</span><span class="v">#2152037-50</span><button class="copy" data-copy="#2152037-50">Copy</button></div>
+            <div class="row"><span class="k">Florida Seller of Travel License</span><span class="v">#ST43007</span><button class="copy" data-copy="#ST43007">Copy</button></div>
+            <div class="row"><span class="k">State of Washington Seller of Travel</span><span class="v">#604-994-859</span><button class="copy" data-copy="#604-994-859">Copy</button></div>
+          </div>
+          <div class="sheet">
+            <h4>Invoicing, affiliations &amp; commission</h4>
+            <div class="row"><span class="k">Default invoice memo</span><span class="v blank">Leave blank</span><span></span></div>
+            <div class="row"><span class="k">Part of a consortium?</span><span class="v">Yes — Virtuoso</span><span></span></div>
+            <div class="row"><span class="k">Standard commission rates</span><span class="v blank">Leave blank — Kate fills this in</span><span></span></div>
+          </div>
+          <p>Click <b>Save</b> at the bottom of the page when finished.</p>
+          <label class="done-toggle"><input type="checkbox" data-step="business"> Mark as done</label>
+        </div>
+      </article>
+
+      <article class="step" id="branding">
+        <div class="step-num">4</div>
+        <div>
+          <h3>Branding</h3>
+          <p class="why">Keeps every itinerary, proposal and form looking like R3 Travel.</p>
+          <span class="owner kate">Kate provides the logo file</span>
+          <div class="sheet">
+            <div class="row"><span class="k">Logo</span><span class="v">Upload the R3 Travel logo file</span><span></span></div>
+            <div class="row"><span class="k">Cover photo</span><span class="v">Upload the R3 Travel branded cover photo</span><span></span></div>
+          </div>
+          <div class="swatch" style="margin-top:16px">
+            <div class="chip" role="img" aria-label="Brand color swatch, dark slate"></div>
+            <div>
+              <div style="color:var(--muted);font-size:14px">Brand color</div>
+              <div class="hex">#26343a</div>
+            </div>
+            <button class="copy" data-copy="#26343a" style="margin-left:auto">Copy hex</button>
+          </div>
+          <label class="done-toggle"><input type="checkbox" data-step="branding"> Mark as done</label>
+        </div>
+      </article>
+
+      <article class="step" id="terms">
+        <div class="step-num">5</div>
+        <div>
+          <h3>Terms &amp; conditions</h3>
+          <p class="why">Use R3 Travel's terms of service so every client agrees to the same terms. Open the link, then add it to your terms settings.</p>
+          <div class="links">
+            <a class="linkcard" href="https://app.tern.travel/public/terms_of_service/EXPs2GpRuE7P81O1he_5qw" target="_blank" rel="noopener"><strong>R3 Travel terms of service</strong><span>app.tern.travel/public/terms_of_service/EXPs2GpRuE7P81O1he_5qw</span></a>
+          </div>
+          <label class="done-toggle"><input type="checkbox" data-step="terms"> Mark as done</label>
+        </div>
+      </article>
+
+      <article class="step" id="trips">
+        <div class="step-num">6</div>
+        <div>
+          <h3>Trip settings</h3>
+          <p class="why">Statuses become the columns of your Trips board, and several workflows fire when a trip changes status. Set them up in exactly this order and spelling so the workflows trigger correctly.</p>
+          <h4 style="margin:0 0 12px">Statuses</h4>
+          <ol class="track">
+            <li>New Lead</li><li>Returning Client Lead</li><li>Planning</li><li>Booked</li>
+            <li>In Travel</li><li>Traveled</li><li>Cancelled</li><li>Archived</li>
+          </ol>
+          <h4 style="margin:28px 0 0">Payment authorizations</h4>
+          <ul class="checks">
+            <li>Use Tern to manage credit card authorizations</li>
+            <li>Allow authorizing payments more than 30 days before the payment due date</li>
+          </ul>
+          <label class="done-toggle"><input type="checkbox" data-step="trips"> Mark as done</label>
+        </div>
+      </article>
+
+      <article class="step" id="integrations">
+        <div class="step-num">7</div>
+        <div>
+          <h3>Integrations</h3>
+          <span class="owner">You connect this</span>
+          <p>Go to <b>Settings → Integrations</b> and add your PE account.</p>
+          <label class="done-toggle"><input type="checkbox" data-step="integrations"> Mark as done</label>
+        </div>
+      </article>
+
+      <article class="step" id="email">
+        <div class="step-num">8</div>
+        <div>
+          <h3>Email &amp; scheduling</h3>
+          <span class="owner kate">Kate provides the signature graphic</span>
+          <ol class="how">
+            <li>Add the R3 Travel email signature graphic Kate sends you.</li>
+            <li>If <b>Smart Inbox</b> is turned on, turn it off.</li>
+          </ol>
+          <label class="done-toggle"><input type="checkbox" data-step="email"> Mark as done</label>
+        </div>
+      </article>
+    </section>
+
+    <!-- =================== LIBRARY =================== -->
+    <section class="part" id="library">
+      <div class="part-title"><h2>Library</h2><p>Tern → Library</p></div>
+
+      <article class="step" id="forms">
+        <div class="step-num">9</div>
+        <div>
+          <h3>Forms</h3>
+          <p class="why">The shared R3 Travel forms are your starting point. Copy them into your own library so you can edit them.</p>
+          <ol class="how">
+            <li>Open the shared R3 Travel forms and copy each one to your library.</li>
+            <li>Keep the same folders and names so they match the emails and workflows that reference them.</li>
+            <li>Open each of the four <b>Research + Design Package</b> forms and replace the retainer-fee payment details with your own, so retainer fees are collected by you.</li>
+          </ol>
+
+          <details class="group">
+            <summary><span class="g-title">Research + Design Packages</span><span class="g-meta">Folder · 4 forms · update all 4</span></summary>
+            <div class="tbl-wrap">
+              <table>
+                <thead><tr><th>Form name</th><th>Your update</th></tr></thead>
+                <tbody>
+                  <tr class="needs-edit"><td class="name">CURATED CUSTOM TRAVEL – Research + Design Package</td><td><span class="tag">Retainer details</span></td></tr>
+                  <tr class="needs-edit"><td class="name">EXPLORE &amp; RELAX – Research + Design Package</td><td><span class="tag">Retainer details</span></td></tr>
+                  <tr class="needs-edit"><td class="name">GROUPS – Research + Design Package</td><td><span class="tag">Retainer details</span></td></tr>
+                  <tr class="needs-edit"><td class="name">The WEEKENDER – Research + Design Package</td><td><span class="tag">Retainer details</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+
+          <details class="group">
+            <summary><span class="g-title">Client Profile (create or update contact records)</span><span class="g-meta">Folder · 3 forms</span></summary>
+            <div class="tbl-wrap">
+              <table>
+                <thead><tr><th>Form name</th><th>Type</th></tr></thead>
+                <tbody>
+                  <tr><td class="name">Client Passport Info &amp; Emergency Contact Info</td><td>Contact Information</td></tr>
+                  <tr><td class="name">Client Passport Info &amp; Emergency Contact Info: Honeymoon</td><td>Contact Information</td></tr>
+                  <tr><td class="name">Client Profile + Insurance acknowledgment</td><td>Contact Information</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+
+          <details class="group">
+            <summary><span class="g-title">Main forms folder</span><span class="g-meta">5 forms</span></summary>
+            <div class="tbl-wrap">
+              <table>
+                <thead><tr><th>Form name</th><th>Type</th></tr></thead>
+                <tbody>
+                  <tr><td class="name">Curated Check-in</td><td>Custom Form</td></tr>
+                  <tr><td class="name">Pre-Travel: Let's Catch Up! 35-Day Check-In &amp; Profile Refresh</td><td>Contact Information</td></tr>
+                  <tr><td class="name">Rental Waiver</td><td>Custom Form</td></tr>
+                  <tr><td class="name">Trip Intake Form</td><td>Trip Request</td></tr>
+                  <tr><td class="name">Welcome Home Survey</td><td>Custom Form</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <label class="done-toggle"><input type="checkbox" data-step="forms"> Mark as done</label>
+        </div>
+      </article>
+
+      <article class="step" id="emails">
+        <div class="step-num">10</div>
+        <div>
+          <h3>Emails</h3>
+          <p class="why">Copy every template to your library, keeping the same folders and numbering. Five templates need your personal details before you use them — they're highlighted below.</p>
+          <div class="callout">
+            <p><b>Calendly link:</b> 01a, 01b, 01d and 07 — swap in your own Calendly link wherever a scheduling link appears.</p>
+            <p><b>Retainer details:</b> 04 — replace the Research &amp; Design retainer fee details with yours.</p>
+          </div>
+
+          <details class="group">
+            <summary><span class="g-title">Main folder — manually sent</span><span class="g-meta">16 templates · 5 to update</span></summary>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Template name</th><th>Subject line</th><th>Your update</th></tr></thead>
+              <tbody>
+                <tr class="needs-edit"><td class="name">01a. Lead Workflow – Link on website New Client/either agent (includes trip intake form + l/s)</td><td>Let's Start Planning Your Next Adventure!</td><td><span class="tag">Calendly link</span></td></tr>
+                <tr class="needs-edit"><td class="name">01b. Initial Contact Email: Send Client Inquiry – Trip Intake Form</td><td>Let's Start Planning Your Next Adventure!</td><td><span class="tag">Calendly link</span></td></tr>
+                <tr class="needs-edit"><td class="name">01d. Returning client: Inquiry Received via email/text: Schedule Intake Call</td><td>Let's Connect to Chat About Your Trip</td><td><span class="tag">Calendly link</span></td></tr>
+                <tr><td class="name">02. Initial Contact Follow-Up: Resend Client Inquiry Follow-Up Form (update with trip form)</td><td>Quick Follow-Up: Ready to Plan Your Trip?</td><td></td></tr>
+                <tr class="needs-edit"><td class="name">04. Call recap: Send Research &amp; Design Retainer detail</td><td>Next Steps: Research &amp; Design Retainer &amp; Trip Recap</td><td><span class="tag">Retainer details</span></td></tr>
+                <tr><td class="name">05. RDR Payment Confirmation</td><td>Payment Received – Let's Get Started!</td><td></td></tr>
+                <tr class="needs-edit"><td class="name">07. Send Client Proposal (confirm trip link should remain in email body)</td><td>Your Custom Travel Proposal is Ready!</td><td><span class="tag">Calendly link</span></td></tr>
+                <tr><td class="name">08a. Proposal Follow-Up #1</td><td>Any Questions About Your Travel Proposal?</td><td></td></tr>
+                <tr><td class="name">08b. Proposal Updated – resend</td><td>Trip Updates are Here!</td><td></td></tr>
+                <tr><td class="name">09. Proposal Approved</td><td>Let's Make It Official 📣</td><td></td></tr>
+                <tr><td class="name">10. Booking Confirmation</td><td>Your Trip Is Booked!</td><td></td></tr>
+                <tr><td class="name">Client Arrival (to property)</td><td>Client arrival</td><td></td></tr>
+                <tr><td class="name">Client Departure (to property)</td><td>Safe Travels</td><td></td></tr>
+                <tr><td class="name">Confirming guest reservation (to property)</td><td>Guest Confirmation</td><td></td></tr>
+                <tr><td class="name">Insurance Purchased</td><td>Insurance Purchased</td><td></td></tr>
+                <tr><td class="name">Insurance Quote</td><td>Insurance Quote is Ready!</td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          </details>
+
+          <details class="group">
+            <summary><span class="g-title">Automated Emails</span><span class="g-meta">Folder · 9 templates · sent by workflows</span></summary>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Template name</th><th>Subject line</th></tr></thead>
+              <tbody>
+                <tr><td class="name">06a. Quote In Progress – Create a Tern Account</td><td>What's the next step? Enter Tern–Trip Central</td></tr>
+                <tr><td class="name">06b. Travel Insurance</td><td>Don't Forget Travel Insurance for Your Upcoming Trip</td></tr>
+                <tr><td class="name">11. 90-Day Check-In (curated – incl 90-day form)</td><td>90 Days to Go!</td></tr>
+                <tr><td class="name">12. 35-Day Check-In &amp; Profile Refresh (incl 35-day form)</td><td>35 Days Until Your Trip—Let's Double-Check Your Details!</td></tr>
+                <tr><td class="name">12a. Proposal Review</td><td>Let's review your itinerary</td></tr>
+                <tr><td class="name">14. 48-Hour Flight Check-In Reminder</td><td>Time to Check In – Your Journey Is About to Begin</td></tr>
+                <tr><td class="name">15. Arrival Check-In (1 day after)</td><td>Welcome—Your Journey Begins!</td></tr>
+                <tr><td class="name">16. Welcome Home Email &amp; Survey (incl survey form)</td><td>Welcome Home – We'd Love Your Feedback!</td></tr>
+                <tr><td class="name">17. 6-Month Post-Travel Check-In (incl intl intake form)</td><td>Thinking About Your Next Getaway?</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          </details>
+
+          <details class="group">
+            <summary><span class="g-title">Client Care Emails</span><span class="g-meta">Folder · 3 templates</span></summary>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Template name</th><th>Subject line</th></tr></thead>
+              <tbody>
+                <tr><td class="name">Happy Anniversary</td><td>Happy Anniversary!</td></tr>
+                <tr><td class="name">Happy Birthday</td><td>Happy Birthday!</td></tr>
+                <tr><td class="name">Passport Expiration</td><td>Your Passport is due to expire</td></tr>
+              </tbody>
+            </table>
+          </div>
+          </details>
+          <label class="done-toggle"><input type="checkbox" data-step="emails"> Mark as done</label>
+        </div>
+      </article>
+
+      <article class="step" id="workflows">
+        <div class="step-num">11</div>
+        <div>
+          <h3>Workflows</h3>
+          <p class="why">Workflows send the automated emails and create your to-do tasks as a trip moves through its statuses. Copy them last, after your emails are in place.</p>
+          <details class="group">
+            <summary><span class="g-title">Workflow templates</span><span class="g-meta">6 workflows</span></summary>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Workflow</th><th>Type</th><th>Contents</th><th>Applied</th></tr></thead>
+              <tbody>
+                <tr><td class="name">00. | Client Relationship Workflow</td><td>Contact</td><td>3 automations · 0 tasks</td><td>Auto-applied</td></tr>
+                <tr><td class="name">01. | Lead Workflow</td><td>Trip</td><td>2 automations · 5 tasks</td><td>Manual</td></tr>
+                <tr><td class="name">02. | Payments Workflow</td><td>Trip</td><td>4 automations · 0 tasks</td><td>Auto-applied</td></tr>
+                <tr><td class="name">03. | Planning Workflow</td><td>Trip</td><td>2 automations · 7 tasks</td><td>Auto-applied</td></tr>
+                <tr><td class="name">04. | Booked Pre/ Post Travel</td><td>Trip</td><td>7 automations · 8 tasks</td><td>Auto-applied</td></tr>
+                <tr><td class="name">Starter Inbound Lead – Tern Trip Form</td><td>Trip</td><td>0 automations · 2 tasks</td><td>Manual</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          </details>
+
+          <details class="group">
+            <summary><span class="g-title">Tie your emails to each workflow</span><span class="g-meta">5 steps</span></summary>
+            <div class="g-body">
+          <p style="margin-top:0">A copied workflow can still point at the shared email templates, which would send Kate's version instead of yours. Reconnect every automation to your own copies:</p>
+          <ol class="how">
+            <li>Copy each workflow above from <b>Shared with Me</b> into <b>My Templates</b>.</li>
+            <li>Open the workflow and click into each automation.</li>
+            <li>In the email step, choose the matching template from <b>your</b> library — same number and name.</li>
+            <li>Check the trigger (status or date) is unchanged, then save.</li>
+            <li>Repeat for every automation. When you're done, the automation count on each workflow should match the table above.</li>
+          </ol>
+          <div class="callout">
+            <p><b>Quick check:</b> the Client Relationship Workflow's 3 automations use the 3 Client Care emails (Anniversary, Birthday, Passport Expiration). The numbered Automated Emails — 11 through 17 — belong to the Booked Pre/Post Travel workflow.</p>
+          </div>
+            </div>
+          </details>
+          <label class="done-toggle"><input type="checkbox" data-step="workflows"> Mark as done</label>
+        </div>
+      </article>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div>
+    <span>R3 Travel, LLC · Elmhurst, IL · Virtuoso member</span>
+    <span>Questions? <a href="mailto:kate@r3travel.com">kate@r3travel.com</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var KEY = 'r3-tern-onboarding';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.done-toggle input'));
+  var total = boxes.length;
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ state = {}; }
+
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+  function render(){
+    var n = 0;
+    boxes.forEach(function(b){
+      var id = b.dataset.step, on = !!state[id];
+      b.checked = on; if (on) n++;
+      var link = document.querySelector('nav.side a[data-step="'+id+'"]');
+      if (link) link.classList.toggle('is-done', on);
+    });
+    document.getElementById('countText').textContent = n + ' of ' + total;
+    document.getElementById('meterBar').style.width = (n/total*100) + '%';
+    document.querySelector('.meter').setAttribute('aria-valuenow', n);
+  }
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){ state[b.dataset.step] = b.checked; save(); render(); });
+  });
+  document.getElementById('resetBtn').addEventListener('click', function(){ state = {}; save(); render(); });
+  render();
+
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.dataset.copy, label = btn.textContent;
+      function done(){ btn.textContent = 'Copied'; btn.classList.add('ok');
+        setTimeout(function(){ btn.textContent = label; btn.classList.remove('ok'); }, 1400); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function(){});
+      } else {
+        var t = document.createElement('textarea'); t.value = text; document.body.appendChild(t);
+        t.select(); try { document.execCommand('copy'); done(); } catch(e){} t.remove();
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
